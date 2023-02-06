@@ -1,0 +1,4 @@
+*.py text eol=lf
+*.tex text eol=lf
+LICEN[CS]E text eol=lf
+*.pdf binary
