@@ -61,6 +61,16 @@ class ArticleData:
         self.title = title  # Title of the article
         self.pages = pages  # Tuple of length 2 (start page, end page)
 
+    @property
+    def main_category(self):
+        """\
+        Returns the main category.
+
+        I.e. 'Sensoren (Computing)' -> 'Computing'
+        """
+        m = _MAIN_CAT.match(self.category)
+        return m.group(2) if m else self.category
+
 
 def read_overview(src) -> Iterable[ArticleData]:
     """\
@@ -93,16 +103,6 @@ def author_occurrences(articles: Iterable[ArticleData]) -> dict[str, int]:
     Returns a dict of author -> number of minimodelle.txt of the provided iterable of article data.
     """
     return Counter(chain.from_iterable(ad.authors for ad in articles))
-
-
-def main_category_name(name: str) -> str:
-    """\
-    Returns the main category.
-
-    I.e. 'Sensoren (Computing)' -> 'Computing'
-    """
-    m = _MAIN_CAT.match(name)
-    return m.group(2) if m else name
 
 
 def remove_minimodel_prefix(title: str) -> str:

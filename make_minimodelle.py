@@ -27,10 +27,10 @@ _MINI_MODELLE = {
     '2021-1': [5]
 }
 
+
 def minimodelle():
     for article in sorted(ftmedia.read_overview('artikeluebersicht.csv'), key=lambda x: x.issue):
-        pages = _MINI_MODELLE.get(article.issue, ())
-        if article.pages[0] not in pages:
+        if article.pages[0] not in _MINI_MODELLE.get(article.issue, ()):
             continue
         article.title = ftmedia.remove_minimodel_prefix(article.title)
         yield article
