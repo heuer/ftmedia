@@ -44,4 +44,5 @@ for i in range(3):
     subprocess.run(['lualatex', 'ftpedia-minimodelle.tex'])
 
 subprocess.run(['gs', '-sDEVICE=pdfwrite', '-sPAPERSIZE=a5', '-dFIXEDMEDIA', '-dPDFFitPage',
-                '-dPDFSETTINGS=/ebook', '-dCompatibilityLevel=1.4', '-oftpedia-mini.pdf', 'ftpedia-minimodelle.pdf'])
+                '-dPDFSETTINGS=/ebook', '-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/prepress',
+                '-dNOPAUSE', '-dBATCH', '-sOutputFile=ftpedia-mini.pdf', 'ftpedia-minimodelle.pdf'])
