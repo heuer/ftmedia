@@ -40,9 +40,13 @@ with open('ftpedia-minimodelle.tex', 'w') as f:
     f.write(ftmedia.make_latex_doc(minimodelle(), data_dir='./data/', title='Mini-Modelle'))
 
 
+# Generate DIN A4 PDF with ToC
 for i in range(3):
     subprocess.run(['lualatex', 'ftpedia-minimodelle.tex'])
 
+
+# DIN A5 PDF
 subprocess.run(['gs', '-sDEVICE=pdfwrite', '-sPAPERSIZE=a5', '-dFIXEDMEDIA', '-dPDFFitPage',
-                '-dPDFSETTINGS=/ebook', '-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/prepress',
-                '-dNOPAUSE', '-dBATCH', '-sOutputFile=ftpedia-mini.pdf', 'ftpedia-minimodelle.pdf'])
+                '-dPDFSETTINGS=/ebook', '-dCompatibilityLevel=1.4', '-dNOPAUSE', '-dBATCH',
+                '-o ftpedia-mini.pdf', '-c ".setpdfwrite <</NeverEmbed [ ]>> setdistillerparams"',
+                '-f', 'ftpedia-minimodelle.pdf'])
