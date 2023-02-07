@@ -48,5 +48,5 @@ for i in range(3):
 # DIN A5 PDF
 subprocess.run(['gs', '-sDEVICE=pdfwrite', '-sPAPERSIZE=a5', '-dFIXEDMEDIA', '-dPDFFitPage',
                 '-dPDFSETTINGS=/ebook', '-dCompatibilityLevel=1.4', '-dNOPAUSE', '-dBATCH',
-                '-o ftpedia-mini.pdf', '-c ".setpdfwrite <</NeverEmbed [ ]>> setdistillerparams"',
+                '-sOutputFile=ftpedia-mini.pdf', '-c ".setpdfwrite <</NeverEmbed [ ]>> setdistillerparams"',
                 '-f', 'ftpedia-minimodelle.pdf'])
