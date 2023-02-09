@@ -29,7 +29,7 @@ _MINI_MODELLE = {
 
 
 def minimodelle():
-    for article in sorted(ftmedia.read_overview('artikeluebersicht.csv'), key=lambda x: x.issue):
+    for article in sorted(ftmedia.read_overview('ftpedia_articles.csv'), key=lambda x: x.issue):
         if article.pages[0] not in _MINI_MODELLE.get(article.issue, ()):
             continue
         article.title = ftmedia.remove_minimodel_prefix(article.title)
@@ -37,7 +37,7 @@ def minimodelle():
 
 
 with open('ftpedia-minimodelle.tex', 'w') as f:
-    f.write(ftmedia.make_latex_doc(minimodelle(), data_dir='./data/', title='Mini-Modelle'))
+    f.write(ftmedia.make_latex_doc(minimodelle(), data_dir='./ftpedia_data/', title='Mini-Modelle'))
 
 
 # Generate DIN A4 PDF with ToC
