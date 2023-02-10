@@ -19,7 +19,7 @@ import re
 import csv
 from itertools import filterfalse, chain
 from collections import Counter
-from typing import Iterable
+from typing import Iterable, Tuple, Optional
 
 _MAIN_CAT = re.compile(r'^([^(]+)\(([^)]+)\)$')
 _CLEAN_MINI = re.compile(r'^Mini[^:]+:\s*')
@@ -53,16 +53,17 @@ class ArticleData:
     """\
     Provides information like author(s), category, title, … about a ft:pedia article.
     """
-    def __init__(self, issue, authors, category, title, pages):
+    def __init__(self, issue, authors, category, title, pages, abstract):
         assert len(pages) == 2
-        self.issue = issue  # ft:pedia issue: YYYY-M
-        self.authors = authors  # Tuple of length 1…n of authors
-        self.category = category  # Name of the category
-        self.title = title  # Title of the article
-        self.pages = pages  # Tuple of length 2 (start page, end page)
+        self.issue: str = issue  # ft:pedia issue: YYYY-M
+        self.authors: Tuple[str, ...] = authors  # Tuple of length 1…n of authors
+        self.category: str = category  # Name of the category
+        self.title: str = title  # Title of the article
+        self.pages: Tuple[int, int] = pages  # Tuple of length 2 (start page, end page)
+        self.abstract: str = abstract
 
     @property
-    def main_category(self):
+    def main_category(self) -> str:
         """\
         Returns the main category.
 
@@ -77,7 +78,7 @@ def read_overview(src) -> Iterable[ArticleData]:
     Reads a CSV file with ft:pedia articles and yields the rows.
 
     The input source must be formatted like the CSV provided by <https://ftcommunity.de/ftpedia/overview/>
-    The header and abstract are omitted.
+    The header is omitted.
     """
     with open(src) as f:
         reader = csv.reader(f, delimiter=';')
@@ -85,7 +86,8 @@ def read_overview(src) -> Iterable[ArticleData]:
         for row in reader:
             pg = row[4]
             pages = tuple(int(p) for p in pg.split('–')) if '–' in pg else (int(pg),) * 2
-            yield ArticleData(row[0], tuple(author.strip() for author in row[1].split(',')), row[2], row[3], pages)
+            yield ArticleData(row[0], tuple(author.strip() for author in row[1].split(',')), row[2], row[3], pages,
+                              row[5])
 
 
 def authors(articles: Iterable[ArticleData]) -> Iterable[str]:
@@ -137,7 +139,7 @@ def _tex_escape(text: str) -> str:
     return _TEX_ESCAPE.sub(lambda match: _TEX_CONV[match.group()], text)
 
 
-def make_latex_doc(articles: Iterable[ArticleData], data_dir, title=None) -> str:
+def make_latex_doc(articles: Iterable[ArticleData], data_dir, title: Optional[str] = None) -> str:
     """\
     Returns a LaTeX document as string.
     """
