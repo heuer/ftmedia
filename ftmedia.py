@@ -53,7 +53,8 @@ class ArticleData:
     """\
     Provides information like author(s), category, title, … about a ft:pedia article.
     """
-    def __init__(self, issue, authors, category, title, pages, abstract):
+    def __init__(self, issue: str, authors: Tuple[str, ...], category: str, title: str, pages: Tuple[int, int],
+                 abstract: str):
         assert len(pages) == 2
         self.issue: str = issue  # ft:pedia issue: YYYY-M
         self.authors: Tuple[str, ...] = authors  # Tuple of length 1…n of authors
