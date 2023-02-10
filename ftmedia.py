@@ -100,7 +100,7 @@ def authors(articles: Iterable[ArticleData]) -> Iterable[str]:
 
 def author_occurrences(articles: Iterable[ArticleData]) -> dict[str, int]:
     """\
-    Returns a dict of author -> number of minimodelle.txt of the provided iterable of article data.
+    Returns a dict of author -> number of articles from the provided iterable of article data.
     """
     return Counter(chain.from_iterable(ad.authors for ad in articles))
 
