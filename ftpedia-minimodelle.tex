@@ -1,8 +1,35 @@
+\DocumentMetadata{uncompress}
 \documentclass[a4paper,12pt]{book}
+\directlua{require("newpax")}
+\directlua {
+  newpax.writenewpax("./ftpedia_data/ftpedia-2016-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2020-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2019-3")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2020-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2018-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2018-3")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2019-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2014-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2014-2")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2014-3")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2021-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2017-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2018-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2017-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2015-1")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2016-2")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2016-3")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2013-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2020-2")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2015-4")
+  newpax.writenewpax("./ftpedia_data/ftpedia-2017-3")
+}
 \pagestyle{empty}
 \usepackage[ngerman]{babel}
 \usepackage{pdfpages}
 \usepackage[hidelinks]{hyperref}
+\usepackage{newpax}
+\newpaxsetup{addannots=true, usefileattributes=false}
 \renewcommand{\familydefault}{\sfdefault}
 \begin{document}
 \begin{titlepage}

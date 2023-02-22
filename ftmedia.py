@@ -24,11 +24,18 @@ from typing import Iterable, Tuple, Optional
 _MAIN_CAT = re.compile(r'^([^(]+)\(([^)]+)\)$')
 _CLEAN_MINI = re.compile(r'^Mini[^:]+:\s*')
 
-_LATEX_DOC = r"""\documentclass[a4paper,12pt]{book}
+_LATEX_DOC = r"""\DocumentMetadata{uncompress}
+\documentclass[a4paper,12pt]{book}
+\directlua{require("newpax")}
+\directlua {
+% pax %
+}
 \pagestyle{empty}
 \usepackage[ngerman]{babel}
 \usepackage{pdfpages}
 \usepackage[hidelinks]{hyperref}
+\usepackage{newpax}
+\newpaxsetup{addannots=true, usefileattributes=false}
 \renewcommand{\familydefault}{\sfdefault}
 \begin{document}
 % title %
@@ -144,13 +151,17 @@ def make_latex_doc(articles: Iterable[ArticleData], data_dir, title: Optional[st
     """\
     Returns a LaTeX document as string.
     """
+    files = set()
+
     def pdf_section(article_data: ArticleData) -> str:
         article_title = _tex_escape(article_data.title)
         filename = os.path.join(data_dir, 'ftpedia-' + article_data.issue + '.pdf')
+        files.add(filename)
         page_from, page_to = article_data.pages
         return f'\\phantomsection\\addcontentsline{{toc}}{{section}}{{{article_title}}}\n' \
                f'\\includepdf[pages={{{page_from}-{page_to}}}]{{{filename}}}'
-    res = _LATEX_DOC.replace('% chapters %', '\n'.join(map(pdf_section, articles)))
+    res = _LATEX_DOC.replace('% chapters %', '\n'.join(map(pdf_section, articles)))\
+                    .replace('% pax %', '\n'.join('  newpax.writenewpax("%s")' % f.replace('.pdf', '') for f in files))
     if title:
         res = res.replace('% title %', _LATEX_TITLE.replace('% title %', _tex_escape(title)))
     return res
