@@ -28,14 +28,13 @@ _LATEX_DOC = r"""\DocumentMetadata{uncompress}
 \documentclass[a4paper,12pt]{book}
 \directlua{require("newpax")}
 \directlua {
-% pax %
+  % pax %
 }
 \pagestyle{empty}
 \usepackage[ngerman]{babel}
 \usepackage{pdfpages}
 \usepackage[hidelinks]{hyperref}
 \usepackage{newpax}
-\newpaxsetup{addannots=true, usefileattributes=false}
 \renewcommand{\familydefault}{\sfdefault}
 \begin{document}
 % title %
@@ -161,7 +160,7 @@ def make_latex_doc(articles: Iterable[ArticleData], data_dir, title: Optional[st
         return f'\\phantomsection\\addcontentsline{{toc}}{{section}}{{{article_title}}}\n' \
                f'\\includepdf[pages={{{page_from}-{page_to}}}]{{{filename}}}'
     res = _LATEX_DOC.replace('% chapters %', '\n'.join(map(pdf_section, articles)))\
-                    .replace('% pax %', '\n'.join('  newpax.writenewpax("%s")' % f.replace('.pdf', '') for f in files))
+                    .replace('% pax %', '\n  '.join('newpax.writenewpax("%s")' % f.replace('.pdf', '') for f in sorted(files)))
     if title:
         res = res.replace('% title %', _LATEX_TITLE.replace('% title %', _tex_escape(title)))
     return res
